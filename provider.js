@@ -1,20 +1,17 @@
-// provider.js
 const fs = require('fs');
 const path = require('path');
 
-// Load the JSON file
-const dataPath = path.join(__dirname, 'data.json');
-let artData = [];
+// Path to your JSON file
+const paintingsPath = path.join(__dirname, 'paintings', 'json', 'paintings.json');
 
-try {
-    const fileContents = fs.readFileSync(dataPath, 'utf8');
-    artData = JSON.parse(fileContents);
-} catch (err) {
+function getAllPaintings() {
+  try {
+    const data = fs.readFileSync(paintingsPath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
     console.error('Error reading JSON file:', err);
+    return []; // return empty array if file not found
+  }
 }
 
-// Export the data
-module.exports = {
-    getAllArt: () => artData,
-    getArtById: (id) => artData.find(item => item.id === id)
-};
+module.exports = { getAllPaintings };
