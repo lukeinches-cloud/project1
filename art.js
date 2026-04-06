@@ -1,46 +1,37 @@
 const express = require('express');
-const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
 const provider = require('./provider');
 
-// Serve static files if needed
+// Serve static files
 app.use(express.static('static'));
 
-// Serve HTML at root
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-// API: get all paintings
+// All paintings
 app.get('/api/paintings', (req, res) => {
-    const paintings = provider.getAllPaintings();
-    res.json(paintings);
+    res.json(provider.getAllPaintings());
 });
 
-// API: get painting by ID
+// Single painting by paintingID
 app.get('/api/paintings/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const painting = provider.getAllPaintings().find(p => String(p.id) === req.params.id);
+    const painting = provider.getAllPaintings().find(p => String(p.paintingID) === req.params.id);
     if (painting) res.json(painting);
     else res.status(404).json({ error: 'Painting not found' });
 });
 
-// API: get paintings by gallery
+// Paintings by artist
 app.get('/api/artist/:id', (req, res) => {
-    const artistId = req.params.id;
-    const paintings = provider.getAllPaintings().filter(p => String(p.artistId) === artistId);
+    const paintings = provider.getAllPaintings().filter(p => String(p.artist.artistID) === req.params.id);
     res.json(paintings);
 });
 
+// Paintings by gallery
 app.get('/api/gallery/:id', (req, res) => {
-    const galleryId = req.params.id;
-    const paintings = provider.getAllPaintings().filter(p => String(p.galleryId) === galleryId);
+    const paintings = provider.getAllPaintings().filter(p => String(p.gallery.galleryID) === req.params.id);
     res.json(paintings);
 });
 
-// API: get paintings by year range
+// Paintings by year range
 app.get('/api/year/:min/:max', (req, res) => {
     const min = parseInt(req.params.min);
     const max = parseInt(req.params.max);
@@ -48,7 +39,6 @@ app.get('/api/year/:min/:max', (req, res) => {
     res.json(paintings);
 });
 
-// Start server
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
