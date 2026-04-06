@@ -1,28 +1,23 @@
 const express = require('express');
-const path = require('path');
+const app = express();
+const port = 3000;
+
+// Import provider module
 const provider = require('./provider');
 
-const app = express();
-const PORT = 3000;
+// Check what we imported (debug)
+console.log(provider);
 
-// Serve static files from 'static' folder
-app.use(express.static(path.join(__dirname, 'static')));
+// Serve static files from "static" folder
+app.use(express.static('static'));
 
-// API route to get all paintings
+// API endpoint for paintings
 app.get('/api/paintings', (req, res) => {
-    res.json(provider.getAllPaintings());
+    const paintings = provider.getAllPaintings();
+    res.json(paintings);
 });
 
-// API route to get a painting by ID
-app.get('/api/paintings/:id', (req, res) => {
-    const painting = provider.getPaintingById(parseInt(req.params.id));
-    if (painting) {
-        res.json(painting);
-    } else {
-        res.status(404).send({ error: 'Painting not found' });
-    }
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
