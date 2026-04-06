@@ -12,5 +12,13 @@
   "type": "commonjs",
   "dependencies": {
     "express": "^5.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeinches-cloud/project1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lukeinches-cloud/project1/issues"
+  },
+  "homepage": "https://github.com/lukeinches-cloud/project1#readme"
 }
