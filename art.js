@@ -28,16 +28,15 @@ app.get('/api/paintings/:id', (req, res) => {
 });
 
 // API: get paintings by gallery
-app.get('/api/gallery/:id', (req, res) => {
-    const galleryId = parseInt(req.params.id);
-    const paintings = provider.getAllPaintings().filter(p => p.galleryId === galleryId);
+app.get('/api/artist/:id', (req, res) => {
+    const artistId = req.params.id;
+    const paintings = provider.getAllPaintings().filter(p => String(p.artistId) === artistId);
     res.json(paintings);
 });
 
-// API: get paintings by artist
-app.get('/api/artist/:id', (req, res) => {
-    const artistId = parseInt(req.params.id);
-    const paintings = provider.getAllPaintings().filter(p => p.artistId === artistId);
+app.get('/api/gallery/:id', (req, res) => {
+    const galleryId = req.params.id;
+    const paintings = provider.getAllPaintings().filter(p => String(p.galleryId) === galleryId);
     res.json(paintings);
 });
 
