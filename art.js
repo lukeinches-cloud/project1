@@ -22,7 +22,7 @@ app.get('/api/paintings', (req, res) => {
 // API: get painting by ID
 app.get('/api/paintings/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    const painting = provider.getAllPaintings().find(p => p.id === id);
+    const painting = provider.getAllPaintings().find(p => String(p.id) === req.params.id);
     if (painting) res.json(painting);
     else res.status(404).json({ error: 'Painting not found' });
 });
